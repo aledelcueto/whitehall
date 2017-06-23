@@ -20,4 +20,12 @@ class DocumentCollectionGroupMembershipTest < ActiveSupport::TestCase
     membership = build(:document_collection_group_membership, document: create(:document_collection).document)
     refute membership.valid?
   end
+
+  test "is invalid when document is not unique in collection" do
+    group = create(:document_collection_group)
+    doc = create(:document)
+    create(:document_collection_group_membership, document_collection_group: group, document: doc)
+    membership = build(:document_collection_group_membership, document_collection_group: group, document: doc)
+    refute membership.valid?
+  end
 end

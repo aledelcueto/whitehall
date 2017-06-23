@@ -6,6 +6,11 @@ class DocumentCollectionGroupMembership < ApplicationRecord
 
   before_create :assign_ordering
 
+  validates :document, uniqueness: {
+    scope: :document_collection_group,
+    message: "already in group"
+  }
+
   validates :document, presence: true
   validates :document_collection_group, presence: true
   validate :document_is_of_allowed_type, if: -> { document.present? }
